@@ -6,16 +6,16 @@ public class ElectricBus extends Bus {
         this.minimalTankFullnessRate = minimalTankFullnessRate;
     }
 
-    public boolean run(int distance) {
-        if (drivingDistance() < distance) {
-            return false;
+    @Override
+    public int drivingDistance() {
+
+        double remainderBatteryFullness = tankFullnessRate - minimalTankFullnessRate;
+
+        if (remainderBatteryFullness <= 0) {
+            return 0;
         }
 
-        if (tankFullnessRate < minimalTankFullnessRate) {
-            return false;
-        }
 
-        tankFullnessRate -= fuelConsumption * distance;
-        return true;
+        return (int) (remainderBatteryFullness / consumptionRate);
     }
 }

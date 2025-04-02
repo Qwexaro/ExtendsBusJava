@@ -2,12 +2,12 @@ public class Bus {
 
     protected double tankFullnessRate;
 
-    protected final double fuelConsumption;
+    protected final double consumptionRate;
 
     private int countBuses;
 
-    public Bus(double fuelConsumption) {
-        this.fuelConsumption = fuelConsumption;
+    public Bus(double consumptionRate) {
+        this.consumptionRate = consumptionRate;
         countBuses++;
     }
 
@@ -17,7 +17,7 @@ public class Bus {
     }
 
     public int drivingDistance() {
-        return (int) (tankFullnessRate / fuelConsumption);
+        return (int) (tankFullnessRate / consumptionRate);
     }
 
     public boolean run(int distance) {
@@ -25,7 +25,7 @@ public class Bus {
             return false;
         }
 
-        tankFullnessRate -= fuelConsumption * distance;
+        tankFullnessRate -= consumptionRate * distance;
         return  true;
     }
 
@@ -37,7 +37,7 @@ public class Bus {
     public String toString() {
         return "Bus{" +
                 "tankFullnessRate=" + tankFullnessRate +
-                ", fuelConsumption=" + fuelConsumption +
+                ", fuelConsumption=" + consumptionRate +
                 ", countBuses=" + countBuses +
                 '}';
     }

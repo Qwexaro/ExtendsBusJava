@@ -18,4 +18,8 @@ public class ElectricBus extends Bus {
 
         return (int) (remainderBatteryFullness / consumptionRate);
     }
+
+    public double getMinimalTankFullnessRate() {
+        return minimalTankFullnessRate;
+    }
 }

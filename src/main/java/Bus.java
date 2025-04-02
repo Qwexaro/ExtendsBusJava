@@ -1,5 +1,6 @@
 public class Bus {
 
+    private static int count;
     protected double tankFullnessRate;
 
     protected final double consumptionRate;
@@ -9,9 +10,10 @@ public class Bus {
     public Bus(double consumptionRate) {
         this.consumptionRate = consumptionRate;
         countBuses++;
+        count++;
     }
 
-    public void refuel(double countLiters) {
+    public final void refuel(double countLiters) {
         double total = tankFullnessRate + countLiters;
         tankFullnessRate = total > 95 ? 95 : total;
     }
@@ -26,11 +28,15 @@ public class Bus {
         }
 
         tankFullnessRate -= consumptionRate * distance;
-        return  true;
+        return true;
     }
 
     public double getTankFullnessRate() {
         return tankFullnessRate;
+    }
+
+    public static int getCountBases() {
+        return count;
     }
 
     @Override

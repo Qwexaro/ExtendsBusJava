@@ -1,32 +1,78 @@
-public class Bus {
+import java.util.Objects;
 
-    private static int count;
+public class Bus {
+    /*
+    Насколько заполнен
+    топливный бак
+    (от 0 до 95)
+     */
     protected double tankFullnessRate;
 
-    protected final double consumptionRate;
+    /*
+    Расход топлива на 1 км
+    95 - 100%
+    9,5 - 10%
+    0,95 - 1%
+    Услово, если бак заполнен на 100%(95),
+    а расход - 0,300,
+    то кол-ва литров в баке
+    хватит на 316 км
+    0,300 * x = 95
+    x = 95 / 0,300
+    x = 316
+     */
+    protected double consumptionRate;
 
-    private int countBuses;
+    //Кол-во автобусов
+    private static int count = 0;
 
     public Bus(double consumptionRate) {
         this.consumptionRate = consumptionRate;
-        countBuses++;
         count++;
     }
 
-    public final void refuel(double countLiters) {
-        double total = tankFullnessRate + countLiters;
-        tankFullnessRate = total > 95 ? 95 : total;
-    }
-
+    /*
+    На сколько км
+    хватит оставшегося топлива
+     */
     public int drivingDistance() {
         return (int) (tankFullnessRate / consumptionRate);
     }
 
+    /*
+    Заправка автобуса
+     */
+    public void refuel(double countLiters) {
+        /*
+        На сколько заполнен топливный бак
+        + кол-во довалиемого бензина
+         */
+        double totalFuel = tankFullnessRate + countLiters;
+
+        /*
+        Если попытаться заполнить бак
+        больше чем на 100%,
+        он заполнится только до 100%
+         */
+        tankFullnessRate = totalFuel > 95 ? 95 : totalFuel;
+    }
+
+    //Проезд автобуса на определённое расстояние в км
     public boolean run(int distance) {
+        /*
+        Проверка того,
+        сможем ли мы
+        пройти указанное расстояние в км
+         */
         if (drivingDistance() < distance) {
             return false;
         }
 
+        /*
+        Вычитаем из топливноо бака
+        кол-во литров
+        на заданную дистанцию
+         */
         tankFullnessRate -= consumptionRate * distance;
         return true;
     }
@@ -35,16 +81,32 @@ public class Bus {
         return tankFullnessRate;
     }
 
-    public static int getCountBases() {
+    public double getConsumptionRate() {
+        return consumptionRate;
+    }
+
+    public static int getCount() {
         return count;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Bus bus = (Bus) o;
+        return Double.compare(tankFullnessRate, bus.tankFullnessRate) == 0 && Double.compare(consumptionRate, bus.consumptionRate) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tankFullnessRate, consumptionRate);
     }
 
     @Override
     public String toString() {
         return "Bus{" +
                 "tankFullnessRate=" + tankFullnessRate +
-                ", fuelConsumption=" + consumptionRate +
-                ", countBuses=" + countBuses +
+                ", consumptionRate=" + consumptionRate +
                 '}';
     }
 }
